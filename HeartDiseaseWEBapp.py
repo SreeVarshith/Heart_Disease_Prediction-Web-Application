@@ -3,7 +3,7 @@ import pickle
 import streamlit as st
 from pathlib import Path
 
-file_path = Path('C:\Users\Munna\Downloads\trained_model.sav')
+file_path = Path('https://raw.githubusercontent.com/your-username/your-repo/main/Heart_Disease_Prediction-Web-Application/trained_model.sav')
 loaded_model = None
 
 try:
