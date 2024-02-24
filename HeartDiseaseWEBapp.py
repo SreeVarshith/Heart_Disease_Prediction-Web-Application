@@ -2,7 +2,7 @@ import numpy as np
 import pickle
 import streamlit as st
 
-loaded_model = pickle.load(open('C:\Users\Munna\Downloads\trained_model.sav', 'rb'))
+loaded_model = pickle.load(open(r'C:\Users\Munna\Downloads\trained_model.sav', 'rb'))
 
 def heart_disease_prediction(input):
     in_np = np.asarray(input, dtype=float)  # Convert input to float
