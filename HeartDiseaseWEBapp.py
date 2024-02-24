@@ -4,7 +4,7 @@ import streamlit as st
 from pathlib import Path
 import pickle
 
-file_path = Path('C:/Users/Munna/Downloads/trained_model.sav')
+file_path = Path('Heart_Disease_Prediction-Web-Application /trained_model.sav')
 
 try:
     with open(file_path, 'rb') as file:
