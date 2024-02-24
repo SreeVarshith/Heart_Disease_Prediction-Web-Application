@@ -5,7 +5,7 @@ from io import BytesIO
 import requests
 
 # Specify the raw URL of the trained_model.sav file on GitHub
-github_raw_url = 'https://raw.githubusercontent.com/your-username/your-repo/main/Heart_Disease_Prediction-Web-Application/trained_model.sav'
+github_raw_url = 'https://raw.githubusercontent.com/SreeVarshith/Heart_Disease_Prediction-Web-Application/main/Heart_Disease_Prediction-Web-Application/trained_model.sav'
 
 # Load the model from GitHub
 try:
