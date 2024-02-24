@@ -17,6 +17,9 @@ else:
     st.error(f"Error: File '{file_path}' not found.")
 
 def heart_disease_prediction(input):
+    # Convert empty strings to NaN (Not a Number)
+    input = [np.nan if value == '' else value for value in input]
+
     try:
         in_np = np.asarray(input, dtype=float)
     except ValueError as ve:
@@ -32,6 +35,7 @@ def heart_disease_prediction(input):
         return "The person does not have heart disease"
     else:
         return "The person has heart disease"
+
 
 def main():
     st.title('Heart Disease Prediction Web App')
