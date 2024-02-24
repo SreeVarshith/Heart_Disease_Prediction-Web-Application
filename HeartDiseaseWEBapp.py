@@ -1,10 +1,17 @@
 import numpy as np
 import pickle
 import streamlit as st
-import os
+from pathlib import Path
+import pickle
 
-file_path = os.path.join('C:', 'Users', 'Munna', 'Downloads', 'trained_model.sav')
-loaded_model = pickle.load(open(file_path, 'rb'))
+file_path = Path('C:/Users/Munna/Downloads/trained_model.sav')
+
+try:
+    with open(file_path, 'rb') as file:
+        loaded_model = pickle.load(file)
+except FileNotFoundError:
+    print(f"Error: The file '{file_path}' was not found.")
+
 
 def heart_disease_prediction(input):
     in_np = np.asarray(input, dtype=float)  # Convert input to float
