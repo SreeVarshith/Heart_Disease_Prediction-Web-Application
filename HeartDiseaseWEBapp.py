@@ -9,7 +9,10 @@ file_path = os.path.join(script_dir, 'trained_model.sav')
 
 # Check if the file exists before attempting to open
 if os.path.exists(file_path):
-    loaded_model = pickle.load(open(file_path, 'rb'))
+    try:
+        loaded_model = pickle.load(open(file_path, 'rb'))
+    except Exception as e:
+        st.error(f"Error loading the model: {e}")
 else:
     st.error(f"Error: File '{file_path}' not found.")
 
