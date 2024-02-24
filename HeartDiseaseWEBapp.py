@@ -7,10 +7,14 @@ file_path = Path('Heart_Disease_Prediction-Web-Application/trained_model.sav')
 loaded_model = None
 
 try:
+    print("Before loading the model.")
     with open(file_path, 'rb') as file:
         loaded_model = pickle.load(file)
+    print("Model loaded successfully.")
 except FileNotFoundError:
     st.error(f"Error: The file '{file_path}' was not found. Please check the file path.")
+except Exception as e:
+    st.error(f"Error: {e}")
 
 def heart_disease_prediction(input):
     global loaded_model
