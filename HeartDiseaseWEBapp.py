@@ -2,16 +2,14 @@ import numpy as np
 import pickle
 import streamlit as st
 from pathlib import Path
-import pickle
 
-file_path = Path('Heart_Disease_Prediction-Web-Application /trained_model.sav')
+file_path = Path('Heart_Disease_Prediction-Web-Application/trained_model.sav')  # Removed extra space in the file path
 
 try:
     with open(file_path, 'rb') as file:
         loaded_model = pickle.load(file)
 except FileNotFoundError:
     print(f"Error: The file '{file_path}' was not found.")
-
 
 def heart_disease_prediction(input):
     in_np = np.asarray(input, dtype=float)  # Convert input to float
