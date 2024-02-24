@@ -4,6 +4,7 @@ import streamlit as st
 from pathlib import Path
 
 file_path = Path('Heart_Disease_Prediction-Web-Application/trained_model.sav')  # Removed extra space in the file path
+loaded_model = None  # Declare loaded_model as a global variable
 
 try:
     with open(file_path, 'rb') as file:
@@ -12,6 +13,11 @@ except FileNotFoundError:
     print(f"Error: The file '{file_path}' was not found.")
 
 def heart_disease_prediction(input):
+    global loaded_model  # Access the global loaded_model variable
+    if loaded_model is None:
+        st.error("Model not loaded. Please check the file path.")
+        return
+
     in_np = np.asarray(input, dtype=float)  # Convert input to float
     np_reshape = in_np.reshape(1, -1)
     prediction = loaded_model.predict(np_reshape)
