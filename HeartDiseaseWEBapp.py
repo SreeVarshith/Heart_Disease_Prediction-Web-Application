@@ -1,33 +1,15 @@
 import numpy as np
 import pickle
 import streamlit as st
-from io import BytesIO
-import requests
 
-# Specify the raw URL of the trained_model.sav file on GitHub
-github_raw_url = 'https://raw.githubusercontent.com/SreeVarshith/main/Heart_Disease_Prediction-Web-Application/trained_model.sav'
-
-# Load the model from GitHub
-try:
-    response = requests.get(github_raw_url)
-    response.raise_for_status()  # Raise an HTTPError for bad responses
-
-    loaded_model = pickle.load(BytesIO(response.content))
-    st.success("Model loaded successfully.")
-except requests.exceptions.RequestException as e:
-    st.error(f"Error accessing GitHub URL: {e}")
-except Exception as e:
-    st.error(f"Error loading the model: {e}")
+loaded_model = pickle.load(open('trained_model.sav', 'rb'))
 
 def heart_disease_prediction(input):
-    global loaded_model
-    if loaded_model is None:
-        st.error("Model not loaded. Please check the GitHub URL.")
-        return
-
-    in_np = np.asarray(input, dtype=float)
+    in_np = np.asarray(input, dtype=float)  # Convert input to float
     np_reshape = in_np.reshape(1, -1)
     prediction = loaded_model.predict(np_reshape)
+
+    print(prediction)
 
     if prediction[0] == 0:
         return "The person does not have heart disease"
@@ -35,8 +17,10 @@ def heart_disease_prediction(input):
         return "The person has heart disease"
 
 def main():
+    # giving title
     st.title('Heart Disease Prediction Web App')
 
+    # age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, target
     age = st.text_input('Age')
     sex = st.text_input('Sex Type')
     cp = st.text_input('Chest Pain type')
@@ -53,6 +37,7 @@ def main():
 
     prediction = ''
 
+    # creating a button for prediction
     if st.button('Heart disease Prediction'):
         prediction = heart_disease_prediction([age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal])
 
