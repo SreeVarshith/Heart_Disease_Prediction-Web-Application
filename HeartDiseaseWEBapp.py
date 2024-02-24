@@ -1,11 +1,20 @@
+import os
 import numpy as np
 import pickle
 import streamlit as st
 
-loaded_model = pickle.load(open('Heart_Disease_Prediction-Web-Application/trained_model.sav', 'rb'))
+# Get the directory of the script
+script_dir = os.path.dirname(__file__)
+file_path = os.path.join(script_dir, 'trained_model.sav')
+
+# Check if the file exists before attempting to open
+if os.path.exists(file_path):
+    loaded_model = pickle.load(open(file_path, 'rb'))
+else:
+    st.error(f"Error: File '{file_path}' not found.")
 
 def heart_disease_prediction(input):
-    in_np = np.asarray(input, dtype=float)  # Convert input to float
+    in_np = np.asarray(input, dtype=float)
     np_reshape = in_np.reshape(1, -1)
     prediction = loaded_model.predict(np_reshape)
 
@@ -17,10 +26,8 @@ def heart_disease_prediction(input):
         return "The person has heart disease"
 
 def main():
-    # giving title
     st.title('Heart Disease Prediction Web App')
 
-    # age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, target
     age = st.text_input('Age')
     sex = st.text_input('Sex Type')
     cp = st.text_input('Chest Pain type')
@@ -37,7 +44,6 @@ def main():
 
     prediction = ''
 
-    # creating a button for prediction
     if st.button('Heart disease Prediction'):
         prediction = heart_disease_prediction([age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal])
 
