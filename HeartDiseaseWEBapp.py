@@ -4,7 +4,7 @@ import streamlit as st
 from pathlib import Path
 
 file_path = Path('Heart_Disease_Prediction-Web-Application/trained_model.sav')
-loaded_model = file_path
+loaded_model = None
 
 try:
     with open(file_path, 'rb') as file:
