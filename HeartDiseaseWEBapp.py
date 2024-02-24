@@ -1,25 +1,28 @@
 import numpy as np
 import pickle
 import streamlit as st
-from pathlib import Path
+from io import BytesIO
+import requests
 
-file_path = Path('https://raw.githubusercontent.com/your-username/your-repo/main/Heart_Disease_Prediction-Web-Application/trained_model.sav')
-loaded_model = None
+# Specify the raw URL of the trained_model.sav file on GitHub
+github_raw_url = 'https://raw.githubusercontent.com/your-username/your-repo/main/Heart_Disease_Prediction-Web-Application/trained_model.sav'
 
+# Load the model from GitHub
 try:
-    print("Before loading the model.")
-    with open(file_path, 'rb') as file:
-        loaded_model = pickle.load(file)
-    print("Model loaded successfully.")
-except FileNotFoundError:
-    st.error(f"Error: The file '{file_path}' was not found. Please check the file path.")
+    response = requests.get(github_raw_url)
+    response.raise_for_status()  # Raise an HTTPError for bad responses
+
+    loaded_model = pickle.load(BytesIO(response.content))
+    st.success("Model loaded successfully.")
+except requests.exceptions.RequestException as e:
+    st.error(f"Error accessing GitHub URL: {e}")
 except Exception as e:
-    st.error(f"Error: {e}")
+    st.error(f"Error loading the model: {e}")
 
 def heart_disease_prediction(input):
     global loaded_model
     if loaded_model is None:
-        st.error("Model not loaded. Please check the file path.")
+        st.error("Model not loaded. Please check the GitHub URL.")
         return
 
     in_np = np.asarray(input, dtype=float)
