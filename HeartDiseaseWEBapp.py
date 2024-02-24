@@ -3,26 +3,24 @@ import pickle
 import streamlit as st
 from pathlib import Path
 
-file_path = Path('Heart_Disease_Prediction-Web-Application/trained_model.sav')  # Removed extra space in the file path
-loaded_model = None  # Declare loaded_model as a global variable
+file_path = Path('Heart_Disease_Prediction-Web-Application/trained_model.sav')
+loaded_model = None
 
 try:
     with open(file_path, 'rb') as file:
         loaded_model = pickle.load(file)
 except FileNotFoundError:
-    print(f"Error: The file '{file_path}' was not found.")
+    st.error(f"Error: The file '{file_path}' was not found. Please check the file path.")
 
 def heart_disease_prediction(input):
-    global loaded_model  # Access the global loaded_model variable
+    global loaded_model
     if loaded_model is None:
         st.error("Model not loaded. Please check the file path.")
         return
 
-    in_np = np.asarray(input, dtype=float)  # Convert input to float
+    in_np = np.asarray(input, dtype=float)
     np_reshape = in_np.reshape(1, -1)
     prediction = loaded_model.predict(np_reshape)
-
-    print(prediction)
 
     if prediction[0] == 0:
         return "The person does not have heart disease"
@@ -30,10 +28,8 @@ def heart_disease_prediction(input):
         return "The person has heart disease"
 
 def main():
-    # giving title
     st.title('Heart Disease Prediction Web App')
 
-    # age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, target
     age = st.text_input('Age')
     sex = st.text_input('Sex Type')
     cp = st.text_input('Chest Pain type')
@@ -50,7 +46,6 @@ def main():
 
     prediction = ''
 
-    # creating a button for prediction
     if st.button('Heart disease Prediction'):
         prediction = heart_disease_prediction([age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal])
 
