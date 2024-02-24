@@ -17,11 +17,16 @@ else:
     st.error(f"Error: File '{file_path}' not found.")
 
 def heart_disease_prediction(input):
-    in_np = np.asarray(input, dtype=float)
+    try:
+        in_np = np.asarray(input, dtype=float)
+    except ValueError as ve:
+        st.error(f"Error converting input to NumPy array: {ve}")
+        return
+
     np_reshape = in_np.reshape(1, -1)
     prediction = loaded_model.predict(np_reshape)
 
-    print(prediction)
+    print("Prediction:", prediction)
 
     if prediction[0] == 0:
         return "The person does not have heart disease"
@@ -48,7 +53,8 @@ def main():
     prediction = ''
 
     if st.button('Heart disease Prediction'):
-        prediction = heart_disease_prediction([age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal])
+        input_values = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+        prediction = heart_disease_prediction(input_values)
 
     st.success(prediction)
 
